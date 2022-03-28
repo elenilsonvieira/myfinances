@@ -1,4 +1,4 @@
-package br.edu.ifpb.dac.myfinances.data.entity;
+package br.edu.ifpb.dac.myfinances.model.entity;
 
 import java.util.Objects;
 

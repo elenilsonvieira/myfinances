@@ -1,4 +1,4 @@
-package br.edu.ifpb.dac.myfinances.data.entity;
+package br.edu.ifpb.dac.myfinances.model.entity;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -9,8 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import br.edu.ifpb.dac.myfinances.data.enums.EntryStatus;
-import br.edu.ifpb.dac.myfinances.data.enums.EntryType;
+import br.edu.ifpb.dac.myfinances.model.enums.EntryStatus;
+import br.edu.ifpb.dac.myfinances.model.enums.EntryType;
 
 @Entity
 public class Entry {
