@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import br.edu.ifpb.dac.myfinances.model.enums.EntryStatus;
 import br.edu.ifpb.dac.myfinances.model.enums.EntryType;
@@ -30,6 +32,8 @@ public class Entry {
 	private EntryType type;
 	@Column(nullable = false)
 	private EntryStatus status;
+	@ManyToOne(optional = false)
+	private SystemUser user;
 	
 	public Long getId() {
 		return id;
@@ -80,6 +84,12 @@ public class Entry {
 		this.status = status;
 	}
 	
+	public SystemUser getUser() {
+		return user;
+	}
+	public void setUser(SystemUser user) {
+		this.user = user;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(description, id, month, status, type, value, year);
@@ -101,7 +111,7 @@ public class Entry {
 	@Override
 	public String toString() {
 		return "Entry [id=" + id + ", description=" + description + ", month=" + month + ", year=" + year + ", value="
-				+ value + ", type=" + type + ", status=" + status + "]";
-	}	
+				+ value + ", type=" + type + ", status=" + status + ", user=" + user + "]";
+	}
 	
 }
