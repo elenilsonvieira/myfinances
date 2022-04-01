@@ -49,7 +49,7 @@ public class EntryServiceImpl implements EntryService{
 			throw new IllegalStateException("Id cannot be null");
 		}
 		
-		Entry entry = findById(id);
+		Entry entry = repository.findById(id).get();
 		
 		if(entry == null) {
 			throw new IllegalStateException(String.format("Could not find a entity with id=%l", id));

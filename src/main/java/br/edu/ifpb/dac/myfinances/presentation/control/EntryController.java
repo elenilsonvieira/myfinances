@@ -63,7 +63,17 @@ public class EntryController {
 	public ResponseEntity update(@PathVariable("id") Long id, @RequestBody EntryDTO dto) {
 		try {
 			dto.setId(id);
+			
+			Long userId = Long.parseLong(dto.getUserId());
+			SystemUser user = systemUserService.findById(userId);
+			
+			if(user == null) {
+				throw new IllegalStateException(String.format("Cound not find any user with id=%l", userId));
+			}
+			
 			Entry entity = converterService.dtoToEntry(dto);
+			entity.setUser(user);
+			
 			entity = service.update(entity);
 			dto = converterService.entryToDTO(entity);
 			
