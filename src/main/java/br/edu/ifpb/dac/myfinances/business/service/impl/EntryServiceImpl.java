@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ifpb.dac.myfinances.business.service.EntryService;
 import br.edu.ifpb.dac.myfinances.model.entity.Entry;
+import br.edu.ifpb.dac.myfinances.model.enums.EntryStatus;
 import br.edu.ifpb.dac.myfinances.model.repository.EntryRepository;
 
 @Service
@@ -20,6 +21,16 @@ public class EntryServiceImpl implements EntryService{
 	
 	@Override
 	public Entry save(Entry entry) {
+		if(entry.getUser() == null || entry.getUser().getId() == null) {
+			throw new IllegalStateException("User cannot be null");
+		}
+		
+		if(entry.getId() != null) {
+			throw new IllegalStateException("Entry is already in the database. Maybe you can try update it.");
+		}
+		
+		entry.setStatus(EntryStatus.PENDING);
+		
 		return repository.save(entry);
 	}
 

@@ -7,15 +7,17 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ifpb.dac.myfinances.business.service.ConverterService;
 import br.edu.ifpb.dac.myfinances.model.entity.Entry;
+import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 import br.edu.ifpb.dac.myfinances.model.enums.EntryStatus;
 import br.edu.ifpb.dac.myfinances.model.enums.EntryType;
 import br.edu.ifpb.dac.myfinances.presentation.dto.EntryDTO;
+import br.edu.ifpb.dac.myfinances.presentation.dto.SystemUserDTO;
 
 @Service
 public class ConverterServiceImpl implements ConverterService{
 
 	@Override
-	public Entry dtoToEntity(EntryDTO dto) {
+	public Entry dtoToEntry(EntryDTO dto) {
 		Entry entity = new Entry();
 		
 		entity.setId(dto.getId());
@@ -38,7 +40,7 @@ public class ConverterServiceImpl implements ConverterService{
 	}
 
 	@Override
-	public EntryDTO entityToDTO(Entry entity) {
+	public EntryDTO entryToDTO(Entry entity) {
 		EntryDTO dto = new EntryDTO();
 		
 		dto.setId(entity.getId());
@@ -47,16 +49,17 @@ public class ConverterServiceImpl implements ConverterService{
 		dto.setYear(entity.getYear());
 		dto.setValue(entity.getValue());
 		dto.setType(entity.getType().toString());
+		dto.setUserId(entity.getUser().getId().toString());
 		
 		return dto;
 	}
 
 	@Override
-	public List<EntryDTO> entityToDTO(List<Entry> entities) {
+	public List<EntryDTO> entryToDTO(List<Entry> entities) {
 		List<EntryDTO> dtos = new ArrayList<>();
 		
 		for (Entry entry : entities) {
-			EntryDTO dto = entityToDTO(entry);
+			EntryDTO dto = entryToDTO(entry);
 			dtos.add(dto);
 		}
 		
@@ -64,15 +67,50 @@ public class ConverterServiceImpl implements ConverterService{
 	}
 
 	@Override
-	public List<Entry> dtoToEntity(List<EntryDTO> dtos) {
+	public List<Entry> dtoToEntry(List<EntryDTO> dtos) {
 		List<Entry> entities = new ArrayList<>();
 		
 		for (EntryDTO dto : dtos) {
-			Entry entry = dtoToEntity(dto);
-			entities.add(entry);
+			Entry entity = dtoToEntry(dto);
+			entities.add(entity);
 		}
 		
 		return entities;
+	}
+
+	@Override
+	public List<SystemUserDTO> systemUserToDTO(List<SystemUser> entities) {
+		List<SystemUserDTO> dtos = new ArrayList<>();
+		
+		for (SystemUser dto : entities) {
+			SystemUserDTO entity = systemUserToDTO(dto);
+			dtos.add(entity);
+		}
+		
+		return dtos;
+	}
+
+	@Override
+	public SystemUser dtoToSystemUser(SystemUserDTO dto) {
+		SystemUser entity = new SystemUser();
+		
+		entity.setId(dto.getId());
+		entity.setName(dto.getName());
+		entity.setEmail(dto.getEmail());
+		entity.setPassword(dto.getPassword());
+		
+		return entity;
+	}
+
+	@Override
+	public SystemUserDTO systemUserToDTO(SystemUser entity) {
+		SystemUserDTO dto = new SystemUserDTO();
+		
+		dto.setId(entity.getId());
+		dto.setName(entity.getName());
+		dto.setEmail(entity.getEmail());
+		
+		return dto;
 	}
 
 }

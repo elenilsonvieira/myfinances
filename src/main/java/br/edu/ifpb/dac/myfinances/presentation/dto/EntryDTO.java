@@ -11,6 +11,7 @@ public class EntryDTO {
 	private BigDecimal value;
 	private String type;
 	private String status;
+	private String userId;
 	
 	public Long getId() {
 		return id;
@@ -53,6 +54,12 @@ public class EntryDTO {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 }

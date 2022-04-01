@@ -1,5 +1,7 @@
 package br.edu.ifpb.dac.myfinances.business.service;
 
+import java.util.List;
+
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 
 public interface SystemUserService {
@@ -13,5 +15,7 @@ public interface SystemUserService {
 	public SystemUser findById(Long id);
 	
 	public Iterable<SystemUser> findAll();
+	
+	public List<SystemUser> find(SystemUser filter);
 	
 }

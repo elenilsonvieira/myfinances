@@ -22,35 +22,23 @@ import br.edu.ifpb.dac.myfinances.business.service.SystemUserService;
 import br.edu.ifpb.dac.myfinances.model.entity.Entry;
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 import br.edu.ifpb.dac.myfinances.presentation.dto.EntryDTO;
+import br.edu.ifpb.dac.myfinances.presentation.dto.SystemUserDTO;
 
 @RestController
-@RequestMapping("/api/entry")
-public class EntryController {
+@RequestMapping("/api/user")
+public class SystemUserController {
 
 	@Autowired
 	private ConverterService converterService;
 	@Autowired
-	private EntryService service;
-	@Autowired
-	private SystemUserService systemUserService;
+	private SystemUserService service;
 	
 	@PostMapping
-	public ResponseEntity save(@RequestBody EntryDTO dto) {
+	public ResponseEntity save(@RequestBody SystemUserDTO dto) {
 		try {
-			if(dto.getUserId() == null) {
-				throw new IllegalStateException("userId cannot be null");
-			}
-			
-			Long userId = Long.parseLong(dto.getUserId());
-			SystemUser user = systemUserService.findById(userId);
-			
-			if(user == null) {
-				throw new IllegalStateException(String.format("Cound not find any user with id=%l", userId));
-			}
-			
-			Entry entity = converterService.dtoToEntry(dto);
+			SystemUser entity = converterService.dtoToSystemUser(dto);
 			entity = service.save(entity);
-			dto = converterService.entryToDTO(entity);
+			dto = converterService.systemUserToDTO(entity);
 			
 			return new ResponseEntity(dto, HttpStatus.CREATED);
 		}catch (Exception e) {
@@ -59,12 +47,12 @@ public class EntryController {
 	}
 	
 	@PutMapping("{id}")
-	public ResponseEntity update(@PathVariable("id") Long id, @RequestBody EntryDTO dto) {
+	public ResponseEntity update(@PathVariable("id") Long id, @RequestBody SystemUserDTO dto) {
 		try {
 			dto.setId(id);
-			Entry entity = converterService.dtoToEntry(dto);
+			SystemUser entity = converterService.dtoToSystemUser(dto);
 			entity = service.update(entity);
-			dto = converterService.entryToDTO(entity);
+			dto = converterService.systemUserToDTO(entity);
 			
 			return ResponseEntity.ok(dto);
 		}catch (Exception e) {
@@ -85,27 +73,18 @@ public class EntryController {
 	
 	@GetMapping
 	public ResponseEntity find(
-				@RequestParam(value = "description", required = false) String description,
-				@RequestParam(value = "month", required = false) Integer month,
-				@RequestParam(value = "year", required = false) Integer year,
-				@RequestParam(value = "userId") Long userId
+				@RequestParam(value = "name", required = false) String name,
+				@RequestParam(value = "email", required = false) String email,
+				@RequestParam(value = "id", required = false) Long id
 			) {
 		try {
-			Entry filter = new Entry();
-			filter.setDescription(description);
-			filter.setMonth(month);
-			filter.setYear(year);
+			SystemUser filter = new SystemUser();
+			filter.setId(id);
+			filter.setName(name);
+			filter.setEmail(email);
 			
-			SystemUser user = systemUserService.findById(userId);
-			
-			if(user == null) {
-				throw new IllegalStateException(String.format("Cound not find any user with id=%l", userId));
-			}
-			
-			filter.setUser(user);
-			
-			List<Entry> entities = service.find(filter);
-			List<EntryDTO> dtos = converterService.entryToDTO(entities);
+			List<SystemUser> entities = service.find(filter);
+			List<SystemUserDTO> dtos = converterService.systemUserToDTO(entities);
 			
 			return ResponseEntity.ok(dtos);
 		}catch (Exception e) {
