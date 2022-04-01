@@ -49,6 +49,7 @@ public class EntryController {
 			}
 			
 			Entry entity = converterService.dtoToEntry(dto);
+			entity.setUser(user);
 			entity = service.save(entity);
 			dto = converterService.entryToDTO(entity);
 			

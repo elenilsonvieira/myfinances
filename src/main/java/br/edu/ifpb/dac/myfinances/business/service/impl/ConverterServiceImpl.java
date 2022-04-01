@@ -49,6 +49,7 @@ public class ConverterServiceImpl implements ConverterService{
 		dto.setYear(entity.getYear());
 		dto.setValue(entity.getValue());
 		dto.setType(entity.getType().toString());
+		dto.setStatus(entity.getStatus().toString());
 		dto.setUserId(entity.getUser().getId().toString());
 		
 		return dto;
