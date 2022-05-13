@@ -74,6 +74,17 @@ public class SystemUserServiceImpl implements SystemUserService{
 		
 		return optional.isPresent() ? optional.get() : null;
 	}
+	
+	@Override
+	public SystemUser findByUsername(String username) {
+		if(username == null) {
+			throw new IllegalStateException("Username cannot be null");
+		}
+		
+		Optional<SystemUser> optional = repository.findByUsername(username); 
+		
+		return optional.isPresent() ? optional.get() : null;
+	}
 
 	@Override
 	public Iterable<SystemUser> findAll() {

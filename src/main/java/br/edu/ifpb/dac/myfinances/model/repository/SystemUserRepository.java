@@ -9,5 +9,6 @@ import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 public interface SystemUserRepository extends JpaRepository<SystemUser, Long> {
 	
 	Optional<SystemUser> findByEmail(String email);
-
+	
+	Optional<SystemUser> findByUsername(String username);
 }

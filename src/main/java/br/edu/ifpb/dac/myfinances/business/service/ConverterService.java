@@ -1,6 +1,7 @@
 package br.edu.ifpb.dac.myfinances.business.service;
 
 import java.util.List;
+import java.util.Map;
 
 import br.edu.ifpb.dac.myfinances.model.entity.Entry;
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
@@ -22,5 +23,11 @@ public interface ConverterService {
 	SystemUser dtoToSystemUser(SystemUserDTO dto);
 	
 	SystemUserDTO systemUserToDTO(SystemUser entity);
+	
+	String mapToJson(Map<String, String> map);
+
+	SystemUser jsonToUser(String json);
+
+	String jsonToToken(String json);
 	
 }

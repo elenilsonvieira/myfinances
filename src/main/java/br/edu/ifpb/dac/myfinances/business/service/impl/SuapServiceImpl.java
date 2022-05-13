@@ -11,20 +11,23 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.Gson;
-
+import br.edu.ifpb.dac.myfinances.business.service.ConverterService;
 import br.edu.ifpb.dac.myfinances.business.service.SuapService;
 
 @Service
 public class SuapServiceImpl implements SuapService{
 
+	@Autowired
+	private ConverterService converterService;
+	
 	@Override
 	public String login(String username, String password) {
-		Map body = new HashMap<String, String>();
-		Gson gson = new Gson();
-		String json = gson.toJson(body);
+		Map body = Map.of(USERNAME_JSON_FIELD, username, PASSWORD_JSON_FIELD, password);
+		
+		String json = converterService.mapToJson(body);
 		
 		try {
 			HttpRequest url = generatePostUrl(OBTAIN_TOKEN_URL, null, json);
@@ -41,27 +44,38 @@ public class SuapServiceImpl implements SuapService{
 	}
 
 	@Override
-	public String findEmployee(String username) {
+	public String findEmployee(String token, String username) {
+		String url = String.format("%s?search=%s", EMPLOYEES_URL, username);
+		return find(token, url);
+	}
+
+	@Override
+	public String findEmployee(String token) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public String findEmployee() {
-		// TODO Auto-generated method stub
-		return null;
+	public String findStudent(String token, String username) {
+		String url = String.format("%s?search=%s", STUDENTS_URL, username);
+		return find(token, url);
 	}
 
 	@Override
-	public String findStudent(String username) {
+	public String findStudent(String token) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
-	public String findStudent() {
-		// TODO Auto-generated method stub
-		return null;
+	public String findUser(String token, String username) {
+		String result = findEmployee(token, username);
+		
+		if(result == null){
+			result = findStudent(token, username);
+		}
+		
+		return result;
 	}
 	
 	private HttpRequest generateGetUrl(String url, Map<String, String> headers) throws URISyntaxException {
@@ -83,12 +97,16 @@ public class SuapServiceImpl implements SuapService{
 	private HttpRequest generatePostUrl(String url, Map<String, String> headers, String body) throws URISyntaxException {
 		Builder builder = HttpRequest.newBuilder().uri(new URI(url));
 		
-		for (Map.Entry<String, String> header : DEFAULT_HEADERS.entrySet()) {
-			builder.setHeader(header.getKey(), header.getValue());
+		if(DEFAULT_HEADERS != null) {
+			for (Map.Entry<String, String> header : DEFAULT_HEADERS.entrySet()) {
+				builder.setHeader(header.getKey(), header.getValue());
+			}
 		}
 		
-		for (Map.Entry<String, String> header : headers.entrySet()) {
-			builder.setHeader(header.getKey(), header.getValue());
+		if(headers != null) {
+			for (Map.Entry<String, String> header : headers.entrySet()) {
+				builder.setHeader(header.getKey(), header.getValue());
+			}
 		}
 		
 		HttpRequest request = builder.POST(BodyPublishers.ofString(body)).build();
@@ -100,6 +118,21 @@ public class SuapServiceImpl implements SuapService{
 		HttpClient httpClient = HttpClient.newHttpClient();
 		String response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString()).body();
 		return response;
+	}
+	
+	private String find(String token, String findUrl) {
+		try {
+			HttpRequest url = generateGetUrl(findUrl, Map.of(TOKEN_HEADER_NAME, String.format(TOKEN_HEADER_VALUE, token)));
+			return sendRequest(url);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();			
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		} catch (InterruptedException e3) {
+			e3.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }

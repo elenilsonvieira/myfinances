@@ -16,6 +16,8 @@ public interface SystemUserService {
 	
 	public SystemUser findByEmail(String email);
 	
+	public SystemUser findByUsername(String username);
+	
 	public Iterable<SystemUser> findAll();
 	
 	public List<SystemUser> find(SystemUser filter);
