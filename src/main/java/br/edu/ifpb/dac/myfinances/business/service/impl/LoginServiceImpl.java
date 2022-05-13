@@ -17,14 +17,14 @@ public class LoginServiceImpl implements LoginService{
 	@Value("app.logintype")
 	private String logintype;
 	
-	public SystemUser login(String email, String password) {
+	public SystemUser login(String username, String password) {
 		switch (logintype) {
 		case "suap":
-			return suapLogin(email, password);
+			return suapLogin(username, password);
 		case "local":
-			return localLogin(email, password);
+			return localLogin(username, password);
 		default:
-			return localLogin(email, password);
+			return localLogin(username, password);
 		}
 	}
 	
@@ -39,8 +39,8 @@ public class LoginServiceImpl implements LoginService{
 		return user;
 	}
 	
-	private SystemUser suapLogin(String email, String password) {
-		SystemUser user = service.findByEmail(email);
+	private SystemUser suapLogin(String username, String password) {
+		SystemUser user = service.findByEmail(username);
 		
 		if(user == null || password == null || 
 				!user.getPassword().equals(password)) {

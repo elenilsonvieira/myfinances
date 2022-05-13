@@ -26,7 +26,7 @@ public class LoginController {
 	@PostMapping("/login")
 	public ResponseEntity login(@RequestBody LoginDTO dto) {
 		try {
-			SystemUser entity = service.login(dto.getEmail(), dto.getPassword());
+			SystemUser entity = service.login(dto.getUsername(), dto.getPassword());
 			SystemUserDTO systemUserDTO = converterService.systemUserToDTO(entity);
 			
 			return new ResponseEntity(systemUserDTO, HttpStatus.OK);

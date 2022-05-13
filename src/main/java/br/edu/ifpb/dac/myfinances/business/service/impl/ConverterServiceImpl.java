@@ -97,6 +97,7 @@ public class ConverterServiceImpl implements ConverterService{
 		
 		entity.setId(dto.getId());
 		entity.setName(dto.getName());
+		entity.setUsername(dto.getUsername());
 		entity.setEmail(dto.getEmail());
 		entity.setPassword(dto.getPassword());
 		
@@ -109,6 +110,7 @@ public class ConverterServiceImpl implements ConverterService{
 		
 		dto.setId(entity.getId());
 		dto.setName(entity.getName());
+		dto.setUsername(entity.getUsername());
 		dto.setEmail(entity.getEmail());
 		
 		return dto;

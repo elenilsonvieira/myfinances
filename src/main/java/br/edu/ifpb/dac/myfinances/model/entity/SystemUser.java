@@ -14,6 +14,7 @@ public class SystemUser {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
+	private String username;
 	private String email;
 	private String password;
 	
@@ -28,6 +29,12 @@ public class SystemUser {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getEmail() {
 		return email;
@@ -58,7 +65,8 @@ public class SystemUser {
 	}
 	@Override
 	public String toString() {
-		return "SystemUser [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";
+		return "SystemUser [id=" + id + ", name=" + name + ", username=" + username + ", email=" + email + ", password="
+				+ password + "]";
 	}
 	
 }
