@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
 
 import br.edu.ifpb.dac.myfinances.business.service.ConverterService;
 import br.edu.ifpb.dac.myfinances.business.service.LoginService;
@@ -17,6 +18,7 @@ import br.edu.ifpb.dac.myfinances.presentation.dto.SystemUserDTO;
 
 @RestController
 @RequestMapping("/api")
+@Scope(value = WebApplicationContext.SCOPE_SESSION)
 public class LoginController {
 
 	@Autowired

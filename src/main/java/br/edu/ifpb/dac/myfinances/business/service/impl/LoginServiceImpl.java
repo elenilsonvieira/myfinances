@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 
 import br.edu.ifpb.dac.myfinances.business.service.ConverterService;
 import br.edu.ifpb.dac.myfinances.business.service.LoginService;
@@ -12,6 +13,7 @@ import br.edu.ifpb.dac.myfinances.business.service.SystemUserService;
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 
 @Service
+@Scope(value = WebApplicationContext.SCOPE_SESSION)
 public class LoginServiceImpl implements LoginService{
 
 	@Autowired
