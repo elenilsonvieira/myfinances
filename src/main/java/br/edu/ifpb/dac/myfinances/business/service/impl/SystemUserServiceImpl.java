@@ -1,6 +1,7 @@
 package br.edu.ifpb.dac.myfinances.business.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -57,7 +58,21 @@ public class SystemUserServiceImpl implements SystemUserService{
 			throw new IllegalStateException("Id cannot be null");
 		}
 		
-		return repository.findById(id).get();
+		Optional<SystemUser> optional = repository.findById(id);
+		
+		return optional.isPresent() ? optional.get() : null;
+	}
+	
+
+	@Override
+	public SystemUser findByEmail(String email) {
+		if(email == null) {
+			throw new IllegalStateException("Email cannot be null");
+		}
+		
+		Optional<SystemUser> optional = repository.findByEmail(email); 
+		
+		return optional.isPresent() ? optional.get() : null;
 	}
 
 	@Override

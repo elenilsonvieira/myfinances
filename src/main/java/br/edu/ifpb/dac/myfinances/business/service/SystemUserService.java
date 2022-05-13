@@ -14,6 +14,8 @@ public interface SystemUserService {
 	
 	public SystemUser findById(Long id);
 	
+	public SystemUser findByEmail(String email);
+	
 	public Iterable<SystemUser> findAll();
 	
 	public List<SystemUser> find(SystemUser filter);
