@@ -2,9 +2,11 @@ package br.edu.ifpb.dac.myfinances.business.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 
-public interface SystemUserService {
+public interface SystemUserService extends UserDetailsService{
 
 	public SystemUser save(SystemUser systemUser);
 	

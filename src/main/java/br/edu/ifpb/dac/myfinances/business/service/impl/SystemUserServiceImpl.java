@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.edu.ifpb.dac.myfinances.business.service.SystemUserService;
@@ -99,6 +101,17 @@ public class SystemUserServiceImpl implements SystemUserService{
 					.withStringMatcher(StringMatcher.CONTAINING));
 		
 		return repository.findAll(example);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		SystemUser user = findByUsername(username);
+		
+		if(user == null) {
+			throw new UsernameNotFoundException(String.format("Could not find any user with username %s", username));
+		}
+		
+		return user;
 	}
 
 }

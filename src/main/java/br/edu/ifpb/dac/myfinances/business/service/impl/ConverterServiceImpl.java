@@ -14,6 +14,7 @@ import com.google.gson.JsonParser;
 
 import br.edu.ifpb.dac.myfinances.business.service.ConverterService;
 import br.edu.ifpb.dac.myfinances.model.entity.Entry;
+import br.edu.ifpb.dac.myfinances.model.entity.SystemRole;
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 import br.edu.ifpb.dac.myfinances.model.enums.EntryStatus;
 import br.edu.ifpb.dac.myfinances.model.enums.EntryType;
@@ -119,6 +120,15 @@ public class ConverterServiceImpl implements ConverterService{
 		dto.setName(entity.getName());
 		dto.setUsername(entity.getUsername());
 		dto.setEmail(entity.getEmail());
+		
+		List<String> roles = new ArrayList<>();
+		if(entity.getRoles() != null) {
+			for (SystemRole role : entity.getRoles()) {
+				roles.add(role.getName());
+			}
+		}
+		
+		dto.setRoles((String[]) roles.toArray());
 		
 		return dto;
 	}

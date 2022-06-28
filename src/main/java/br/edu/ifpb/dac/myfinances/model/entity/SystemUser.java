@@ -1,14 +1,20 @@
 package br.edu.ifpb.dac.myfinances.model.entity;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class SystemUser {
+public class SystemUser implements UserDetails{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,6 +23,8 @@ public class SystemUser {
 	private String username;
 	private String email;
 	private String password;
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<SystemRole> roles;
 	
 	public Long getId() {
 		return id;
@@ -48,6 +56,12 @@ public class SystemUser {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public List<SystemRole> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<SystemRole> roles) {
+		this.roles = roles;
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(email);
@@ -67,6 +81,27 @@ public class SystemUser {
 	public String toString() {
 		return "SystemUser [id=" + id + ", name=" + name + ", username=" + username + ", email=" + email + ", password="
 				+ password + "]";
+	}
+	
+	@Override
+	public Collection<SystemRole> getAuthorities() {
+		return roles;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 	
 }

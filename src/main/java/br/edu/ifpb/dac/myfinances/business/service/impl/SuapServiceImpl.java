@@ -122,7 +122,8 @@ public class SuapServiceImpl implements SuapService{
 	
 	private String find(String token, String findUrl) {
 		try {
-			HttpRequest url = generateGetUrl(findUrl, Map.of(TOKEN_HEADER_NAME, String.format(TOKEN_HEADER_VALUE, token)));
+			HttpRequest url = generateGetUrl(findUrl, 
+					Map.of(TOKEN_HEADER_NAME, String.format(TOKEN_HEADER_VALUE, token)));
 			return sendRequest(url);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();			
