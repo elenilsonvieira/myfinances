@@ -20,7 +20,7 @@ import br.edu.ifpb.dac.myfinances.presentation.dto.SystemUserDTO;
 import br.edu.ifpb.dac.myfinances.presentation.dto.TokenDTO;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 public class AuthenticationController {
 

@@ -1,7 +1,12 @@
 package br.edu.ifpb.dac.myfinances.config;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -14,9 +19,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -62,8 +69,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.authorizeRequests()
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 				.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
-				.antMatchers(HttpMethod.POST, "/api/isTokenValid").permitAll()
+				.antMatchers(HttpMethod.POST, "/login").permitAll()
+				.antMatchers(HttpMethod.POST, "/isTokenValid").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 				.antMatchers(HttpMethod.DELETE, "/api/user").hasRole(SystemRoleService.AVAILABLE_ROLES.ADMIN.name())
 				.anyRequest().authenticated()	
@@ -71,6 +78,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 			.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+		
+		http
+		.logout(
+				logout ->
+					logout
+					.clearAuthentication(true)
+					.logoutUrl("/logout")
+					.logoutSuccessHandler(new LogoutSuccessHandler() {
+						@Override
+						public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+								throws IOException, ServletException {
+						}
+					})
+					.invalidateHttpSession(true)
+			);
 	}
 	
 	@Bean
