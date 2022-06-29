@@ -5,6 +5,8 @@ public class TokenDTO {
 	private String token;
 	private SystemUserDTO user;
 	
+	public TokenDTO() {
+	}
 	public TokenDTO(String token, SystemUserDTO user) {
 		super();
 		this.token = token;

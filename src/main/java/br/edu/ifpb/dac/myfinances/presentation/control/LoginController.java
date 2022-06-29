@@ -13,6 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
 import br.edu.ifpb.dac.myfinances.business.service.ConverterService;
 import br.edu.ifpb.dac.myfinances.business.service.LoginService;
 import br.edu.ifpb.dac.myfinances.business.service.SystemUserService;
+import br.edu.ifpb.dac.myfinances.business.service.TokenService;
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 import br.edu.ifpb.dac.myfinances.presentation.dto.LoginDTO;
 import br.edu.ifpb.dac.myfinances.presentation.dto.SystemUserDTO;
@@ -29,6 +30,8 @@ public class LoginController {
 	private ConverterService converterService;
 	@Autowired
 	private SystemUserService systemUserService;
+	@Autowired
+	private TokenService tokenService;
 	
 	@PostMapping("/login")
 	public ResponseEntity login(@RequestBody LoginDTO dto) {
@@ -40,6 +43,17 @@ public class LoginController {
 			TokenDTO tokenDTO = new TokenDTO(token, systemUserDTO);
 			
 			return new ResponseEntity(tokenDTO, HttpStatus.OK);
+		}catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+	
+	@PostMapping("/isTokenValid")
+	public ResponseEntity isTokenValid(@RequestBody TokenDTO dto) {
+		try {
+			boolean isTokenValid = tokenService.isValid(dto.getToken());
+			
+			return new ResponseEntity(isTokenValid, HttpStatus.OK);
 		}catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
