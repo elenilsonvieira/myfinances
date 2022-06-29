@@ -22,7 +22,7 @@ import br.edu.ifpb.dac.myfinances.presentation.dto.TokenDTO;
 @RestController
 @RequestMapping("/api")
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
-public class LoginController {
+public class AuthenticationController {
 
 	@Autowired
 	private LoginService service;

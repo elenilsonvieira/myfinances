@@ -82,22 +82,22 @@ public class TokenServiceImpl implements TokenService{
 	}
 
 	@Override
-	public String getUsername(String token) {
+	public Long getUserId(String token) {
 		Claims claims = getClaims(token);
-		return claims.getSubject();
+		return Long.parseLong(claims.getSubject());
 	}
 
 	@Override
-	public Long getUserId(String token) {
+	public String getUsername(String token) {
 		Claims claims = getClaims(token);
-		return (Long) claims.get(CLAIM_USERNAME);
+		return (String) claims.get(CLAIM_USERNAME);
 	}
 
 	@Override
 	public String get(HttpServletRequest request) {
 		String authorization = request.getHeader("Authorization");
 		
-		if(authorization == null || authorization.startsWith("Bearer")) {
+		if(authorization == null || !authorization.startsWith("Bearer")) {
 			return null;
 		}
 		
