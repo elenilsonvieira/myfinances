@@ -12,9 +12,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 import br.edu.ifpb.dac.myfinances.business.service.ConverterService;
 import br.edu.ifpb.dac.myfinances.business.service.LoginService;
+import br.edu.ifpb.dac.myfinances.business.service.SystemUserService;
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 import br.edu.ifpb.dac.myfinances.presentation.dto.LoginDTO;
 import br.edu.ifpb.dac.myfinances.presentation.dto.SystemUserDTO;
+import br.edu.ifpb.dac.myfinances.presentation.dto.TokenDTO;
 
 @RestController
 @RequestMapping("/api")
@@ -25,14 +27,19 @@ public class LoginController {
 	private LoginService service;
 	@Autowired
 	private ConverterService converterService;
+	@Autowired
+	private SystemUserService systemUserService;
 	
 	@PostMapping("/login")
 	public ResponseEntity login(@RequestBody LoginDTO dto) {
 		try {
-			SystemUser entity = service.login(dto.getUsername(), dto.getPassword());
+			String token = service.login(dto.getUsername(), dto.getPassword());
+			SystemUser entity = systemUserService.findByUsername(dto.getUsername());
 			SystemUserDTO systemUserDTO = converterService.systemUserToDTO(entity);
 			
-			return new ResponseEntity(systemUserDTO, HttpStatus.OK);
+			TokenDTO tokenDTO = new TokenDTO(token, systemUserDTO);
+			
+			return new ResponseEntity(tokenDTO, HttpStatus.OK);
 		}catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}

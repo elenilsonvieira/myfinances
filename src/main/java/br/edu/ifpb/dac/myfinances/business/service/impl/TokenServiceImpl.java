@@ -47,7 +47,7 @@ public class TokenServiceImpl implements TokenService{
 						.setExpiration(expirationDate)
 						.setSubject(user.getId().toString())
 						.claim(CLAIM_USERID, user.getId())
-						.claim(CLAIM_USERNAME, user.getId())
+						.claim(CLAIM_USERNAME, user.getUsername())
 						.claim(CLAIM_EXPIRATION, tokenExpiration)
 						.signWith(SignatureAlgorithm.HS512 , secret)
 						.compact();
@@ -66,6 +66,10 @@ public class TokenServiceImpl implements TokenService{
 
 	@Override
 	public boolean isValid(String token) {
+		if(token == null) {
+			return false;
+		}
+		
 		try {
 			Claims claims = getClaims(token);
 			LocalDateTime expirationDate = claims.getExpiration().toInstant()

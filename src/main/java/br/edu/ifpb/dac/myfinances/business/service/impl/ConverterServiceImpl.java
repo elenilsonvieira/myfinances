@@ -128,7 +128,7 @@ public class ConverterServiceImpl implements ConverterService{
 			}
 		}
 		
-		dto.setRoles((String[]) roles.toArray());
+		dto.setRoles(roles.toArray(new String[0]));
 		
 		return dto;
 	}
