@@ -39,4 +39,9 @@ public class SystemRoleServiceImpl implements SystemRoleService{
 		return optional.isPresent() ? optional.get() : null;
 	}
 
+	@Override
+	public SystemRole findDefault() {
+		return findByName(AVAILABLE_ROLES.USER.name());
+	}
+
 }

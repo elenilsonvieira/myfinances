@@ -9,9 +9,12 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifpb.dac.myfinances.business.service.SystemRoleService;
 import br.edu.ifpb.dac.myfinances.business.service.SystemUserService;
+import br.edu.ifpb.dac.myfinances.model.entity.SystemRole;
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 import br.edu.ifpb.dac.myfinances.model.repository.SystemUserRepository;
 
@@ -20,12 +23,21 @@ public class SystemUserServiceImpl implements SystemUserService{
 
 	@Autowired
 	private SystemUserRepository repository;
+	@Autowired
+	private SystemRoleService systemRoleService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public SystemUser save(SystemUser systemUser) {
 		if(systemUser.getId() != null) {
 			throw new IllegalStateException("User is already in the database. Maybe you can try update it.");
 		}
+		
+		encryptPassword(systemUser);
+		
+		SystemRole defaultRole = systemRoleService.findDefault();
+		systemUser.getRoles().add(defaultRole);
 		
 		return repository.save(systemUser);
 	}
@@ -35,6 +47,8 @@ public class SystemUserServiceImpl implements SystemUserService{
 		if(systemUser.getId() == null) {
 			throw new IllegalStateException("Id cannot be null");
 		}
+		
+		encryptPassword(systemUser);
 		
 		return repository.save(systemUser);
 	}
@@ -112,6 +126,13 @@ public class SystemUserServiceImpl implements SystemUserService{
 		}
 		
 		return user;
+	}
+	
+	private void encryptPassword(SystemUser systemUser) {
+		if(systemUser.getPassword() != null) {
+			String encryptedPassword = passwordEncoder.encode(systemUser.getPassword());
+			systemUser.setPassword(encryptedPassword);
+		}
 	}
 
 }
