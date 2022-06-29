@@ -22,6 +22,7 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import br.edu.ifpb.dac.myfinances.business.service.PasswordEnconderService;
 import br.edu.ifpb.dac.myfinances.business.service.SystemRoleService;
 import br.edu.ifpb.dac.myfinances.business.service.SystemUserService;
 import br.edu.ifpb.dac.myfinances.business.service.TokenService;
@@ -33,11 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	private TokenService tokenService;
 	@Autowired
 	private SystemUserService systemUserService;
-	
-	@Bean
-	public PasswordEncoder getPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	@Autowired
+	private PasswordEnconderService passwordEnconderService;
 	
 	@Override
 	@Bean
@@ -54,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 			.userDetailsService(systemUserService)
-			.passwordEncoder(getPasswordEncoder());
+			.passwordEncoder(passwordEnconderService);
 	}
 	
 	@Override
