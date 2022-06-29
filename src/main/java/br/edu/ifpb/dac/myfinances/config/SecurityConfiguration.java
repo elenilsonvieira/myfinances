@@ -84,14 +84,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 				logout ->
 					logout
 					.clearAuthentication(true)
+					.invalidateHttpSession(true)
 					.logoutUrl("/logout")
 					.logoutSuccessHandler(new LogoutSuccessHandler() {
 						@Override
-						public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+						public void onLogoutSuccess(HttpServletRequest request, 
+								HttpServletResponse response, Authentication authentication)
 								throws IOException, ServletException {
 						}
 					})
-					.invalidateHttpSession(true)
 			);
 	}
 	
