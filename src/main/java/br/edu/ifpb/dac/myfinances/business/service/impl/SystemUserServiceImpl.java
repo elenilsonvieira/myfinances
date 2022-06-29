@@ -35,7 +35,7 @@ public class SystemUserServiceImpl implements SystemUserService{
 			throw new IllegalStateException("User is already in the database. Maybe you can try update it.");
 		}
 		
-		encryptPassword(systemUser);
+		passwordEnconderService.encryptPassword(systemUser);
 		
 		List<SystemRole> roles = new ArrayList<>();
 		roles.add(systemRoleService.findDefault());
@@ -50,7 +50,7 @@ public class SystemUserServiceImpl implements SystemUserService{
 			throw new IllegalStateException("Id cannot be null");
 		}
 		
-		encryptPassword(systemUser);
+		passwordEnconderService.encryptPassword(systemUser);
 		
 		return repository.save(systemUser);
 	}
@@ -128,13 +128,6 @@ public class SystemUserServiceImpl implements SystemUserService{
 		}
 		
 		return user;
-	}
-	
-	private void encryptPassword(SystemUser systemUser) {
-		if(systemUser.getPassword() != null) {
-			String encryptedPassword = passwordEnconderService.encode(systemUser.getPassword());
-			systemUser.setPassword(encryptedPassword);
-		}
 	}
 
 }
