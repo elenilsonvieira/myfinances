@@ -8,6 +8,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.stereotype.Service;
 
+import br.edu.ifpb.dac.myfinances.business.service.AuthenticationService;
 import br.edu.ifpb.dac.myfinances.business.service.EntryService;
 import br.edu.ifpb.dac.myfinances.model.entity.Entry;
 import br.edu.ifpb.dac.myfinances.model.enums.EntryStatus;
@@ -18,17 +19,16 @@ public class EntryServiceImpl implements EntryService{
 
 	@Autowired
 	private EntryRepository repository;
+	@Autowired
+	private AuthenticationService authenticationService;
 	
 	@Override
-	public Entry save(Entry entry) {
-		if(entry.getUser() == null || entry.getUser().getId() == null) {
-			throw new IllegalStateException("User cannot be null");
-		}
-		
+	public Entry save(Entry entry) {		
 		if(entry.getId() != null) {
 			throw new IllegalStateException("Entry is already in the database. Maybe you can try update it.");
 		}
 		
+		entry.setUser(authenticationService.getLoggedUser());
 		entry.setStatus(EntryStatus.PENDING);
 		
 		return repository.save(entry);

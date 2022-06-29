@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import br.edu.ifpb.dac.myfinances.business.service.ConverterService;
-import br.edu.ifpb.dac.myfinances.business.service.LoginService;
+import br.edu.ifpb.dac.myfinances.business.service.AuthenticationService;
 import br.edu.ifpb.dac.myfinances.business.service.SystemUserService;
 import br.edu.ifpb.dac.myfinances.business.service.TokenService;
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
@@ -25,7 +25,7 @@ import br.edu.ifpb.dac.myfinances.presentation.dto.TokenDTO;
 public class AuthenticationController {
 
 	@Autowired
-	private LoginService service;
+	private AuthenticationService service;
 	@Autowired
 	private ConverterService converterService;
 	@Autowired

@@ -6,19 +6,20 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
 import br.edu.ifpb.dac.myfinances.business.service.ConverterService;
-import br.edu.ifpb.dac.myfinances.business.service.LoginService;
+import br.edu.ifpb.dac.myfinances.business.service.AuthenticationService;
 import br.edu.ifpb.dac.myfinances.business.service.SuapService;
 import br.edu.ifpb.dac.myfinances.business.service.SystemUserService;
 import br.edu.ifpb.dac.myfinances.business.service.TokenService;
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 
 @Service
-@Scope(value = WebApplicationContext.SCOPE_SESSION)
-public class LoginServiceImpl implements LoginService{
+//@Scope(value = WebApplicationContext.SCOPE_SESSION)
+public class AuthenticationServiceImpl implements AuthenticationService{
 
 	@Autowired
 	private SystemUserService systemUserService;
@@ -74,6 +75,12 @@ public class LoginServiceImpl implements LoginService{
 		}
 		
 		return tokenService.generate(user);
+	}
+
+	@Override
+	public SystemUser getLoggedUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return (SystemUser) authentication.getPrincipal();
 	}
 	
 }

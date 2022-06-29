@@ -36,20 +36,8 @@ public class EntryController {
 	
 	@PostMapping
 	public ResponseEntity save(@RequestBody EntryDTO dto) {
-		try {
-			if(dto.getUserId() == null) {
-				throw new IllegalStateException("userId cannot be null");
-			}
-			
-			Long userId = Long.parseLong(dto.getUserId());
-			SystemUser user = systemUserService.findById(userId);
-			
-			if(user == null) {
-				throw new IllegalStateException(String.format("Cound not find any user with id=%l", userId));
-			}
-			
+		try {			
 			Entry entity = converterService.dtoToEntry(dto);
-			entity.setUser(user);
 			entity = service.save(entity);
 			dto = converterService.entryToDTO(entity);
 			
