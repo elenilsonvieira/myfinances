@@ -18,7 +18,6 @@ import br.edu.ifpb.dac.myfinances.business.service.TokenService;
 import br.edu.ifpb.dac.myfinances.model.entity.SystemUser;
 
 @Service
-//@Scope(value = WebApplicationContext.SCOPE_SESSION)
 public class AuthenticationServiceImpl implements AuthenticationService{
 
 	@Autowired
