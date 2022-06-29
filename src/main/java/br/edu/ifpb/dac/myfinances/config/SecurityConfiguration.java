@@ -21,9 +21,9 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import br.edu.ifpb.dac.myfinances.business.service.SystemRoleService;
 import br.edu.ifpb.dac.myfinances.business.service.SystemUserService;
 import br.edu.ifpb.dac.myfinances.business.service.TokenService;
-import br.edu.ifpb.dac.myfinances.model.entity.SystemRole;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
@@ -59,7 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 				.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
 				.antMatchers(HttpMethod.POST, "/api").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/user").permitAll()
-				.antMatchers(HttpMethod.DELETE, "/api/user").hasRole(SystemRole.AVAILABLE_ROLES.ADMIN.toString())
+				.antMatchers(HttpMethod.DELETE, "/api/user").hasRole(SystemRoleService.AVAILABLE_ROLES.ADMIN.name())
 				.anyRequest().authenticated()	
 		.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

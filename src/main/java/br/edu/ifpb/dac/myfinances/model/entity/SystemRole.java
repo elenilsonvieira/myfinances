@@ -12,8 +12,6 @@ import org.springframework.security.core.GrantedAuthority;
 @Entity
 public class SystemRole implements GrantedAuthority{
 
-	public enum AVAILABLE_ROLES { ADMIN, USER }
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
