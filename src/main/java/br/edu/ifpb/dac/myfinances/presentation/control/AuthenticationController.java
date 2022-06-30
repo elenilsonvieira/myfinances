@@ -20,7 +20,7 @@ import br.edu.ifpb.dac.myfinances.presentation.dto.SystemUserDTO;
 import br.edu.ifpb.dac.myfinances.presentation.dto.TokenDTO;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 @Scope(value = WebApplicationContext.SCOPE_SESSION)
 public class AuthenticationController {
 
@@ -49,9 +49,9 @@ public class AuthenticationController {
 	}
 	
 	@PostMapping("/isTokenValid")
-	public ResponseEntity isTokenValid(@RequestBody TokenDTO dto) {
+	public ResponseEntity isTokenValid(@RequestBody String token) {
 		try {
-			boolean isTokenValid = tokenService.isValid(dto.getToken());
+			boolean isTokenValid = tokenService.isValid(token);
 			
 			return new ResponseEntity(isTokenValid, HttpStatus.OK);
 		}catch (Exception e) {

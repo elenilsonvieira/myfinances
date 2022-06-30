@@ -67,8 +67,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.authorizeRequests()
 				.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 				.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-				.antMatchers(HttpMethod.POST, "/login").permitAll()
-				.antMatchers(HttpMethod.POST, "/isTokenValid").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/login").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/isTokenValid").permitAll()
 				.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 				.antMatchers(HttpMethod.DELETE, "/api/user").hasRole(SystemRoleService.AVAILABLE_ROLES.ADMIN.name())
 				.anyRequest().authenticated()	
@@ -83,7 +83,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 					logout
 					.clearAuthentication(true)
 					.invalidateHttpSession(true)
-					.logoutUrl("/logout")
+					.logoutUrl("/api/logout")
 					.logoutSuccessHandler(new LogoutSuccessHandler() {
 						@Override
 						public void onLogoutSuccess(HttpServletRequest request, 
@@ -101,7 +101,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
 		corsConfiguration.setAllowedMethods(all);
-		corsConfiguration.setAllowedOrigins(all);
+		corsConfiguration.setAllowedOriginPatterns(all);
 		corsConfiguration.setAllowedHeaders(all);
 		corsConfiguration.setAllowCredentials(true);
 		
