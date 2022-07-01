@@ -49,9 +49,9 @@ public class AuthenticationController {
 	}
 	
 	@PostMapping("/isTokenValid")
-	public ResponseEntity isTokenValid(@RequestBody String token) {
+	public ResponseEntity isTokenValid(@RequestBody TokenDTO dto) {
 		try {
-			boolean isTokenValid = tokenService.isValid(token);
+			boolean isTokenValid = tokenService.isValid(dto.getToken());
 			
 			return new ResponseEntity(isTokenValid, HttpStatus.OK);
 		}catch (Exception e) {
