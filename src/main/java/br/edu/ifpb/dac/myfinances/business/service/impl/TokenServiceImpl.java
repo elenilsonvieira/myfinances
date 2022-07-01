@@ -76,7 +76,7 @@ public class TokenServiceImpl implements TokenService{
 					.atZone(ZoneId.systemDefault()).toLocalDateTime();
 			
 			return!LocalDateTime.now().isAfter(expirationDate);
-		}catch(ExpiredJwtException e) {
+		}catch(Exception e) {
 			return false;
 		}
 	}
