@@ -49,7 +49,9 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	
 	private String localLogin(String username, String password) {	
 		//Excecao sera lancada em caso de falha
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+		Authentication authentication = 
+				authenticationManager.authenticate(
+						new UsernamePasswordAuthenticationToken(username, password));
 		
 		SystemUser user = systemUserService.findByUsername(username);
 		

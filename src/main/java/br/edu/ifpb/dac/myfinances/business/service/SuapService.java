@@ -12,7 +12,7 @@ public interface SuapService {
 	public static final String PASSWORD_JSON_FIELD = "password";
 	
 	public static final String TOKEN_HEADER_NAME = "Authorization";
-	public static final String TOKEN_HEADER_VALUE = "JWT %s";
+	public static final String TOKEN_HEADER_VALUE = "Bearer %s";
 	
 	public static final Map<String, String> DEFAULT_HEADERS = Map.of("Content-Type", "application/json");
 	
